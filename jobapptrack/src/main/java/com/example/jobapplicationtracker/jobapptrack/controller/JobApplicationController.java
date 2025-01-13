@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.jobapplicationtracker.jobapptrack.model.ApplicationStatus;
 import com.example.jobapplicationtracker.jobapptrack.model.JobApplication;
+import com.example.jobapplicationtracker.jobapptrack.model.JobType;
 import com.example.jobapplicationtracker.jobapptrack.service.JobApplicationService;
 
 import java.util.List;
@@ -19,16 +20,13 @@ public class JobApplicationController {
     @Autowired
     private JobApplicationService service;
 
-    @GetMapping("/")
-    public String homePage() {
-        return "Welcome to the Job Application Tracker!";
-    }
-
     @GetMapping
     public List<JobApplication> getAllApplications() {
         return service.getAllApplications();
     }
 
+    /* ENDPOINTS */
+    
     @GetMapping("/{id}")
     public ResponseEntity<JobApplication> getApplicationById(@PathVariable Long id){
         Optional<JobApplication> jobApp = service.getApplicationById(id);
@@ -41,6 +39,16 @@ public class JobApplicationController {
         return service.getApplicationsByStatus(status);
     }
 
+    @GetMapping("/jobType/{jobType}")
+    public List<JobApplication> getApplicationByJobType(@PathVariable JobType jobType) {
+        return service.getApplicationsByJobType(jobType);
+    }
+
+    @GetMapping("/location/{location}")
+    public List<JobApplication> getApplicationByLocation(@PathVariable String location) {
+        return service.getApplicationsByLocation(location);
+    }
+
     @GetMapping("/search")
     public List<JobApplication> searchApplications(@RequestParam String keyword) {
         // find keyword in company, position, notes
@@ -51,6 +59,9 @@ public class JobApplicationController {
                 || app.getNotes().toLowerCase().contains(keyword.toLowerCase())))
                 .toList();
     }
+
+
+    /* CRUD OPERATIONS */
 
     @PostMapping
     public JobApplication addApplication(@RequestBody JobApplication jobApplication) {

@@ -17,14 +17,18 @@ public class JobApplication {
 
     private String company;
     private String position;
+    private String location;
+    private String notes;
 
     @Enumerated(EnumType.STRING)
     private ApplicationStatus status;
 
+    @Enumerated(EnumType.STRING)
+    private JobType jobType;
+
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate applicationDate;
     
-    private String notes;
 
     public String getCompany() {
         return company;
@@ -38,12 +42,20 @@ public class JobApplication {
         return status;
     }
 
+    public JobType getJobType(){
+        return jobType;
+    }
+
     public LocalDate getApplicationDate() {
         return applicationDate;
     }
 
     public String getNotes() {
         return notes;
+    }
+
+    public String getLocation(){
+        return location;
     }
 
     public void setCompany(String company) {
@@ -64,6 +76,14 @@ public class JobApplication {
     
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public void setJobType(JobType jobType){
+        this.jobType = jobType;
+    }
+
+    public void setLocation(String location){
+        this.location = location;
     }
     
 }

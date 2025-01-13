@@ -1,0 +1,47 @@
+[
+    {
+        "company": "Amazon",
+        "position": "AI Software Engineer",
+        "status": "REJECTED",
+        "applicationDate": "02-01-2025",
+        "notes": "Looking forward to receiving a reply.",
+        "jobType" : "HYBRID",
+        "location" : "Amsterdam, Netherlands"
+    },
+    {
+        "company": "Autodesk",
+        "position": "Machine Learning Intern",
+        "status": "REJECTED",
+        "applicationDate": "06-01-2025",
+        "notes": "Applied via the company portal",
+        "jobType" : "ONSITE",
+        "location" : "Amsterdam, Netherlands"
+    },
+    {
+        "company": "Bending Spoons",
+        "position": "Software Developer",
+        "status": "INTERVIEW",
+        "applicationDate": "26-12-2024",
+        "notes": "Remote opportunity or on-site in Amsterdam.",
+        "jobType" : "REMOTE",
+        "location" : "Amsterdam, Netherlands"
+    },
+    {
+        "company": "Gaddr",
+        "position": "Full Stack Developer",
+        "status": "OFFERED",
+        "applicationDate": "28-12-2024",
+        "notes": "Remote with startup in Sweeden.",
+        "jobType" : "REMOTE",
+        "location" : "Stockholm, Sweeden"
+    },
+    {
+        "company": "EAC",
+        "position": "Software Engineer",
+        "status": "OFFERED",
+        "applicationDate": "30-12-2024",
+        "notes": "Unpaid internship, secured position, contract awaiting @ gmail.",
+        "jobType" : "ONSITE",
+        "location" : "Nicosia, Cyprus"
+    }
+]
