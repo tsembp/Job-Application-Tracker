@@ -6,6 +6,7 @@ import com.example.jobapplicationtracker.jobapptrack.repository.JobApplicationRe
 import com.example.jobapplicationtracker.jobapptrack.model.ApplicationStatus;
 import com.example.jobapplicationtracker.jobapptrack.model.JobApplication;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class JobApplicationService {
@@ -16,6 +17,10 @@ public class JobApplicationService {
     public List<JobApplication> getAllApplications() {
         return repository.findAll();
     }
+
+    public Optional<JobApplication> getApplicationById(Long id) {
+        return repository.findById(id);
+    }      
 
     public JobApplication saveApplication(JobApplication jobApplication) {
         return repository.save(jobApplication);
@@ -30,7 +35,6 @@ public class JobApplicationService {
                 .filter(job -> job.getStatus() == status) // get jobs with matching status
                 .toList();
     }
-
 
     public JobApplication updateApplication(Long id, JobApplication updatedJobApplication) {
         return repository.findById(id).map(existingApp -> { // find job with id and map it to `existingApp`
