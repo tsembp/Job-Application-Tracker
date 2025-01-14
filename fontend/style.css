@@ -1,0 +1,145 @@
+/* General Styling */
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #EAEAEA;
+}
+
+/* Header Styling */
+header {
+    width: 100%;
+    background-color: #1E1E1E;
+    color: #EAEAEA;
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid #333333;
+}
+
+/* Section Title */
+h3 {
+    text-align: center;
+    color: #EAEAEA;
+}
+
+/* Container for Side-by-Side Layout */
+.container {
+    display: flex;
+    gap: 1.5rem;
+    padding: 2rem;
+}
+
+/* Form Section Styling */
+.form-section {
+    flex: 1;
+    padding: 1rem;
+    border: 1px solid #333333;
+    border-radius: 8px;
+    background-color: #1E1E1E;
+}
+
+/* Form Elements Styling */
+form input, 
+form select, 
+form textarea, 
+form button {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #333333;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: #292929;
+    color: #EAEAEA;
+}
+
+/* Button Styling */
+form button {
+    background-color: #4CAF50;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    color: #EAEAEA;
+    transition: background 0.3s ease-in-out
+}
+
+form button:hover {
+    background-color: #45A045;
+}
+
+form label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* Filters and Table Section Styling */
+.table-section {
+    flex: 2;
+    padding: 1rem;
+    border: 1px solid #333333;
+    border-radius: 8px;
+    background-color: #1E1E1E;
+}
+
+.filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.filters select, 
+.filters input, 
+.filters button {
+    padding: 0.75rem;
+    border: 1px solid #333333;
+    border-radius: 5px;
+    background-color: #292929;
+    color: #EAEAEA;
+}
+
+.filters button {
+    background-color: #4CAF50;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out
+}
+
+.filters button:hover {
+    background-color: #45A045;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #333333;
+}
+
+table thead {
+    background-color: #333333;
+    color: #EAEAEA;
+}
+
+table th, 
+table td {
+    border: 1px solid #333333;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #292929;
+}
+
+/* Footer Styling */
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #1E1E1E;
+    color: #EAEAEA;
+    border-top: 1px solid #333333;
+    margin-top: 2rem;
+}

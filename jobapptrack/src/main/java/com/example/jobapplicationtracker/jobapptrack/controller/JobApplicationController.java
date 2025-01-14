@@ -39,6 +39,16 @@ public class JobApplicationController {
                      .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/filter")
+    public List<JobApplication> filterApplications(@RequestParam(required = false) ApplicationStatus status, @RequestParam(required = false) JobType jobType, @RequestParam(required = false) String location) {
+        return service.getAllApplications().stream()
+                .filter(app -> (status == null || app.getStatus().equals(status)) &&
+                            (jobType == null || app.getJobType().equals(jobType)) &&
+                            (location == null || app.getLocation().equalsIgnoreCase(location)))
+                .toList();
+    }
+
+
     @GetMapping("/status/{status}")
     public List<JobApplication> getApplicationsByStatus(@PathVariable ApplicationStatus status) {
         return service.getApplicationsByStatus(status);

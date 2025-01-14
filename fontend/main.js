@@ -74,36 +74,40 @@ function populateLocationDropdown(data) {
 }
 
 // Filter functions
+async function filterApplications() {
+    const status = document.getElementById('statusFilter').value;
+    const jobType = document.getElementById('jobTypeFilter').value;
+    const location = document.getElementById('locationFilter').value;
+
+    let url = `${baseURL}/filter`;
+    const params = [];
+
+    // add filters if applied
+    if (status) params.push(`status=${encodeURIComponent(status)}`);
+    if (jobType) params.push(`jobType=${encodeURIComponent(jobType)}`);
+    if (location) params.push(`location=${encodeURIComponent(location)}`);
+
+    if(params.length === 0){
+        fetchApplications();
+        return;
+    }
+
+    url += params.join('&'); // construct filter query URL
+    
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Failed to fetch');
+        const data = await response.json();
+        displayApplications(data);
+    } catch (error) {
+        alert("No matching applications found.");
+        displayApplications([]); 
+    }
+}
+
 async function searchApplications() {
     const keyword = document.getElementById('searchBar').value;
     const response = await fetch(`${baseURL}/search?keyword=${encodeURIComponent(keyword)}`);
-    const data = await response.json();
-    displayApplications(data);
-}
-
-async function filterByStatus(){
-    const status = document.getElementById('statusFilter').value;
-    if(!status) return fetchApplications();
-
-    const response = await fetch(`${baseURL}/status/${status}`);
-    const data = await response.json();
-    displayApplications(data);
-}
-
-async function filterByJobType(){
-    const jobType = document.getElementById('jobTypeFilter').value;
-    if(!jobType) return fetchApplications;
-
-    const response = await fetch(`${baseURL}/jobType/${jobType}`);
-    const data = await response.json();
-    displayApplications(data);
-}
-
-async function filterByLocation() {
-    const location = document.getElementById('locationFilter').value;
-    if(!location) return fetchApplications();
-
-    const response = await fetch(`${baseURL}/location/${encodeURIComponent(location)}`);
     const data = await response.json();
     displayApplications(data);
 }

@@ -7,72 +7,87 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Job Application Tracker</h1>
+    <header>
+        <h1>Job Application Tracker</h1>
+    </header>
 
-    <form id="jobForm">
-        <input type="text" id="company" placeholder="Company Name" required>
-        <input type="text" id="position" placeholder="Position" required>
-        <input type="text" id="location" placeholder="Location" required>
-        <input type="date" id="applicationDate" required>
+    <div class="container">
+        <section class="form-section">
+            <h3>New Job Application</h3>
+            <form id="jobForm">
+                <input type="text" id="company" placeholder="Company Name" required>
+                <input type="text" id="position" placeholder="Position" required>
+                <input type="text" id="location" placeholder="Location" required>
+                <input type="date" id="applicationDate" required>
 
-        <label for="status">Status:</label>
-        <select id="status" required>
-            <option value="APPLIED">Applied</option>
-            <option value="REJECTED">Rejected</option>
-            <option value="INTERVIEW">Interview</option>
-            <option value="OFFERED">Offered</option>
-        </select>
+                <label for="status">Status:</label>
+                <select id="status" required>
+                    <option value="APPLIED">Applied</option>
+                    <option value="REJECTED">Rejected</option>
+                    <option value="INTERVIEW">Interview</option>
+                    <option value="OFFERED">Offered</option>
+                </select>
 
-        <label for="jobType">Job Type</label>
-        <select id="jobType" required>
-            <option value="ONSITE">Onsite</option>
-            <option value="HYBRID">Hybrid</option>
-            <option value="REMOTE">Remote</option>
-        </select>
+                <label for="jobType">Job Type</label>
+                <select id="jobType" required>
+                    <option value="ONSITE">Onsite</option>
+                    <option value="HYBRID">Hybrid</option>
+                    <option value="REMOTE">Remote</option>
+                </select>
 
-        <textarea id="notes" rows="4" placeholder="Add notes here"></textarea>
+                <textarea id="notes" rows="4" placeholder="Add notes here"></textarea>
 
-        <button type="submit">Add Application</button>
-    </form>
+                <button type="submit">Add Application</button>
+            </form>
+        </section>
 
-    <h3>Current Applications</h3>
-    <input type="text" id="searchBar" placeholder="Search by keyword...">
-    <button onclick="searchApplications()">Search</button>
+        <section class="table-section">
+            <h3>Current Applications</h3>
 
-    <select id="statusFilter" onchange="filterByStatus()">
-        <option value="">Select Status</option>
-        <option value="APPLIED">Applied</option>
-        <option value="REJECTED">Rejected</option>
-        <option value="INTERVIEW">Interview</option>
-        <option value="OFFERED">Offered</option>
-    </select>
-    <select id="jobTypeFilter" onchange="filterByJobType()">
-        <option value="">Select Job Type</option>
-        <option value="ONSITE">Onsite</option>
-        <option value="REMOTE">Remote</option>
-        <option value="HYBRID">Hybrid</option>
-    </select>
-    <select id="locationFilter" onchange="filterByLocation()">
-        <option value="">Select Location</option>
-    </select>
-    <button onclick="filterApplications()">Search</button>
+            <div class="filters">
+                <input type="text" id="searchBar" placeholder="Search by keyword...">
+                <button onclick="searchApplications()">Search</button>
 
-    <table id="applicationsTable">
-        <thead>
-            <tr>
-                <th>Company</th>
-                <th>Position</th>
-                <th>Status</th>
-                <th>Job Type</th>
-                <th>Location</th>
-                <th>Application Date</th>
-                <th>Notes</th>
-            </tr>
-        </thead>
-        <tbody id="applicationsList"></tbody>
-    </table>
-    
+                <select id="statusFilter">
+                    <option value="">Select Status</option>
+                    <option value="APPLIED">Applied</option>
+                    <option value="REJECTED">Rejected</option>
+                    <option value="INTERVIEW">Interview</option>
+                    <option value="OFFERED">Offered</option>
+                </select>
+
+                <select id="jobTypeFilter">
+                    <option value="">Select Job Type</option>
+                    <option value="ONSITE">Onsite</option>
+                    <option value="REMOTE">Remote</option>
+                    <option value="HYBRID">Hybrid</option>
+                </select>
+
+                <select id="locationFilter">
+                    <option value="">Select Location</option>
+                </select>
+
+                <button onclick="filterApplications()">Search</button>
+            </div>
+
+            <table id="applicationsTable">
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Position</th>
+                        <th>Status</th>
+                        <th>Job Type</th>
+                        <th>Location</th>
+                        <th>Application Date</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody id="applicationsList"></tbody>
+            </table>
+        </section>
+    </div>
+
+    <footer>Developed by Panagiotis Tsembekis</footer>
     <script src="main.js"></script>
-    <!-- <footer>Developed by Panagiotis Tsembekis</footer> -->
 </body>
 </html>
