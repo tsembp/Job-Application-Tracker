@@ -37,7 +37,7 @@ public class JobApplication {
     private JobType jobType;
 
     @NotNull(message = "Application date cannot be null.")
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate applicationDate;
 
     

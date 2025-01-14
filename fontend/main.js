@@ -7,7 +7,7 @@ form.onsubmit = async(event) => {
     const company = document.getElementById('company').value;
     const position = document.getElementById('position').value;
     const location = document.getElementById('location').value;
-    const date = document.getElementById('applicationDate').value;
+    const applicationDate = document.getElementById('applicationDate').value;
     const status = document.getElementById('status').value;
     const jobType = document.getElementById('jobType').value;
     const notes = document.getElementById('notes').value;
@@ -27,7 +27,7 @@ form.onsubmit = async(event) => {
         company: company,
         position: position,
         status: status,
-        date: date,
+        applicationDate: applicationDate,
         notes: notes,
         jobType: jobType,
         location: location
@@ -51,22 +51,36 @@ form.onsubmit = async(event) => {
 // Get application
 async function fetchApplications() {
     const response = await fetch('http://localhost:8080/api/jobapplications');
-    const data = await response.json; // get applications in json format
+    const data = await response.json(); // get applications in json format
 
     applicationsList.innerHTML = ''; // clear list
-    data.forEach(application =>{
+    if(data.length === 0){
         const row = document.createElement('tr'); // create list for applications
         row.innerHTML = `
-            <td>${app.company}</td>
-            <td>${app.position}</td>
-            <td>${app.status}</td>
-            <td>${app.jobType}</td>
-            <td>${app.location}</td>
-            <td>${app.applicationDate}</td>
-            <td>${app.notes}</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
         `;
         applicationsList.appendChild(row);
-    });
+    } else{
+        data.forEach(app =>{
+            const row = document.createElement('tr'); // create list for applications
+            row.innerHTML = `
+                <td>${app.company}</td>
+                <td>${app.position}</td>
+                <td>${app.status}</td>
+                <td>${app.jobType}</td>
+                <td>${app.location}</td>
+                <td>${app.applicationDate}</td>
+                <td>${app.notes}</td>
+            `;
+            applicationsList.appendChild(row);
+        });
+    }
 }
 
 fetchApplications();
