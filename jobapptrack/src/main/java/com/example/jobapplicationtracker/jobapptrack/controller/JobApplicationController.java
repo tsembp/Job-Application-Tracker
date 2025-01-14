@@ -10,6 +10,9 @@ import com.example.jobapplicationtracker.jobapptrack.model.JobApplication;
 import com.example.jobapplicationtracker.jobapptrack.model.JobType;
 import com.example.jobapplicationtracker.jobapptrack.service.JobApplicationService;
 
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -64,27 +67,35 @@ public class JobApplicationController {
     /* CRUD OPERATIONS */
 
     @PostMapping
-    public JobApplication addApplication(@RequestBody JobApplication jobApplication) {
-        return service.saveApplication(jobApplication);
+    public ResponseEntity<?> addApplication(@Valid @RequestBody JobApplication jobApplication) {
+        JobApplication savedApplication = service.saveApplication(jobApplication);
+        return ResponseEntity.ok(savedApplication);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteApplication(@PathVariable Long id) {
         Optional<JobApplication> jobApp = service.getApplicationById(id);
         if (jobApp.isPresent()) {
-            service.deleteApplication(id);
+            service.deleteApplication(id); // if exists -> delete
             return ResponseEntity.ok().body("Job Application deleted successfully.");
         } else {
+            // handle 404
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Job Application with id `" + id + "` not found.");
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<JobApplication> updateApplication(
-            @PathVariable Long id, @RequestBody JobApplication updatedJobApplication) {
-        JobApplication updated = service.updateApplication(id, updatedJobApplication);
-        return ResponseEntity.ok(updated);
+    public ResponseEntity<?> updateApplication(@PathVariable Long id, @RequestBody JobApplication updatedJobApplication) {
+        try {
+            // update application record
+            JobApplication updated = service.updateApplication(id, updatedJobApplication);
+            return ResponseEntity.ok(updated);
+        } catch (EntityNotFoundException e) {
+            // handle error 404 not found
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
+
 
 }

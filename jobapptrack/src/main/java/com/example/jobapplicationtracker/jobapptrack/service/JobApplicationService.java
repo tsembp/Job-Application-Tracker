@@ -3,6 +3,9 @@ package com.example.jobapplicationtracker.jobapptrack.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.jobapplicationtracker.jobapptrack.repository.JobApplicationRepository;
+
+import jakarta.persistence.EntityNotFoundException;
+
 import com.example.jobapplicationtracker.jobapptrack.model.ApplicationStatus;
 import com.example.jobapplicationtracker.jobapptrack.model.JobApplication;
 import com.example.jobapplicationtracker.jobapptrack.model.JobType;
@@ -36,7 +39,7 @@ public class JobApplicationService {
             existingApp.setApplicationDate(updatedJobApplication.getApplicationDate());
             existingApp.setNotes(updatedJobApplication.getNotes());
             return repository.save(existingApp); // save job application
-        }).orElseThrow(() -> new RuntimeException("Job Application not found with id " + id)); // handle not found
+        }).orElseThrow(() -> new EntityNotFoundException("Job Application not found with id " + id)); // handle not found
     }
 
 
