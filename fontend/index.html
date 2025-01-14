@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Job Application Tracker</h1>
+
+    <form id="jobForm">
+        <input type="text" id="company" placeholder="Company Name" required>
+        <input type="text" id="position" placeholder="Position" required>
+        <input type="text" id="location" placeholder="Location" required>
+        <input type="date" id="applicationDate" required>
+
+        <label for="status">Status:</label>
+        <select id="status" required>
+            <option value="APPLIED">Applied</option>
+            <option value="REJECTED">Rejected</option>
+            <option value="INTERVIEW">Interview</option>
+            <option value="OFFERED">Offered</option>
+        </select>
+
+        <label for="jobType">Job Type</label>
+        <select id="jobType" required>
+            <option value="ONSITE">Onsite</option>
+            <option value="HYBRID">Hybrid</option>
+            <option value="REMOTE">Remote</option>
+        </select>
+
+        <textarea id="notes" rows="4" placeholder="Add notes here"></textarea>
+
+        <button type="submit">Add Application</button>
+    </form>
+
+    <h3>Current Applications</h3>
+    <table id="applicationsTable">
+        <thead>
+            <tr>
+                <th>Company</th>
+                <th>Position</th>
+                <th>Status</th>
+                <th>Job Type</th>
+                <th>Location</th>
+                <th>Application Date</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody id="applicationsList"></tbody>
+    </table>
+    
+    <script src="main.js"></script>
+    <!-- <footer>Developed by Panagiotis Tsembekis</footer> -->
+</body>
+</html>
