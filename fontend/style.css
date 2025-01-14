@@ -6,6 +6,7 @@ body, html {
     font-family: Arial, sans-serif;
     background-color: #121212;
     color: #EAEAEA;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 /* Header Styling */
@@ -22,6 +23,21 @@ header {
 h3 {
     text-align: center;
     color: #EAEAEA;
+}
+
+.container, 
+#applicationsTable, 
+#paginationControls, 
+#jobTypeChart, 
+#statusChart {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+#jobTypeChart, 
+#statusChart {
+    max-width: 80%;
+    height: auto;
 }
 
 /* Container for Side-by-Side Layout */

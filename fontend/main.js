@@ -110,12 +110,12 @@ async function deleteApplication(id) {
     }
 }
 
-
 // Get applications
 async function fetchApplications() {
     const response = await fetch(baseURL);
     allApplications = await response.json(); // get applications in json format
     generateCharts(allApplications); // charts generation
+    updateHeroSection(allApplications);
     populateLocationDropdown(allApplications); // get values for location dropdown
     displayApplications(allApplications); // display table
 }
@@ -267,6 +267,20 @@ function changePage(step) {
     displayApplications(allApplications);
 }
 
+// Function to display key job application stats
+function updateHeroSection(data) {
+    // Total Applications
+    document.getElementById('totalApplications').textContent = data.length;
+
+    // Total Interviews (Count based on status)
+    const totalInterviews = data.filter(app => app.status === 'INTERVIEW').length;
+    document.getElementById('totalInterviews').textContent = totalInterviews;
+
+    // Total Offers (Count based on status)
+    const totalOffers = data.filter(app => app.status === 'OFFERED').length;
+    document.getElementById('totalOffers').textContent = totalOffers;
+}
+
 // Function to generate charts for jobType and status
 function generateCharts(data) {
     console.log('Updating graphs.')
@@ -279,7 +293,7 @@ function generateCharts(data) {
         statusCounts[app.status] = (statusCounts[app.status] || 0) + 1;
     });
 
-    // ✅ Destroy existing charts before re-creating them
+    // Destroy existing charts before re-creating them
     if (jobTypeChartInstance) {
         jobTypeChartInstance.destroy();
     }
@@ -287,7 +301,7 @@ function generateCharts(data) {
         statusChartInstance.destroy();
     }
 
-    // ✅ Job Type Chart
+    // Job Type Chart
     const jobTypeCtx = document.getElementById('jobTypeChart').getContext('2d');
     jobTypeChartInstance = new Chart(jobTypeCtx, {
         type: 'pie',
@@ -300,7 +314,7 @@ function generateCharts(data) {
         }
     });
 
-    // ✅ Status Chart
+    // Status Chart
     const statusCtx = document.getElementById('statusChart').getContext('2d');
     statusChartInstance = new Chart(statusCtx, {
         type: 'bar',
