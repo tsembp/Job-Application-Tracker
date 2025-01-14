@@ -80,12 +80,37 @@
                         <th>Location</th>
                         <th>Application Date</th>
                         <th>Notes</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody id="applicationsList"></tbody>
             </table>
+
+            <div id="paginationControls" style="text-align: center; margin-top: 20px;">
+            </div>
         </section>
     </div>
+
+    <!-- Section for Charts -->
+    <div style="width: 100%; padding: 20px; margin-top: 20px; background-color: #2c2c2c;">
+        <h2 style="color: white; text-align: center;">Application Insights</h2>
+        <div style="display: flex; justify-content: space-around;">
+            <!-- Job Type Chart -->
+            <div style="width: 45%;">
+                <h3 style="color: white; text-align: center;">Job Types Distribution</h3>
+                <canvas id="jobTypeChart"></canvas>
+            </div>
+            <!-- Status Chart -->
+            <div style="width: 45%;">
+                <h3 style="color: white; text-align: center;">Status Distribution</h3>
+                <canvas id="statusChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
     <footer>Developed by Panagiotis Tsembekis</footer>
     <script src="main.js"></script>

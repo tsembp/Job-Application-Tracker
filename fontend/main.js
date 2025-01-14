@@ -2,9 +2,18 @@ const baseURL = 'http://localhost:8080/api/jobapplications';
 const form = document.getElementById('jobForm');
 const applicationsList = document.getElementById('applicationsList');
 
+let currentPage = 1;
+let entriesPerPage = 5;
+let allApplications = [];
+
+let jobTypeChartInstance = null;
+let statusChartInstance = null;
+
 // Add application
 form.onsubmit = async(event) => {
     event.preventDefault();
+
+    // Get user's input
     const company = document.getElementById('company').value;
     const position = document.getElementById('position').value;
     const location = document.getElementById('location').value;
@@ -24,6 +33,7 @@ form.onsubmit = async(event) => {
     //     "location" : "Amsterdam, Netherlands"
     // }
 
+    // New job application with its attributes
     const jobApplication = {
         company: company,
         position: position,
@@ -49,28 +59,65 @@ form.onsubmit = async(event) => {
     }
 }
 
+// Update existing application
+async function updateApplication(id, field, newValue) {
+    try {
+        const response = await fetch(`${baseURL}/${id}`); // fetch application
+        if (!response.ok) {
+            alert("Error fetching the application data for update.");
+            return;
+        }
+
+        const appData = await response.json();
+
+        if (appData[field] == newValue) { // skip if unchanged
+            fetchApplications(); // refresh data
+            return;
+        }
+
+        appData[field] = newValue; // update field
+
+        const updateResponse = await fetch(`${baseURL}/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(appData)
+        });
+
+        if (updateResponse.ok) {
+            alert("Application updated successfully!");
+            fetchApplications(); // refresh data
+        } else {
+            alert("Failed to update the application.");
+        }
+    } catch (error) {
+        console.error("Error during update:", error);
+        alert("An error occurred while updating the application.");
+    }
+}
+
+// Delete application by id
+async function deleteApplication(id) {
+    if (confirm("Are you sure you want to delete this application?")) { // confirmation window
+        const response = await fetch(`${baseURL}/${id}`, {
+            method: 'DELETE'
+        });
+        if (response.ok) {
+            alert("Application deleted successfully!");
+            fetchApplications(); // refresh the table after deletion
+        } else {
+            alert("Failed to delete the application.");
+        }
+    }
+}
+
+
 // Get applications
 async function fetchApplications() {
     const response = await fetch(baseURL);
-    const data = await response.json(); // get applications in json format
-    populateLocationDropdown(data);
-    displayApplications(data);
-}
-
-function populateLocationDropdown(data) {
-    const locationFilter = document.getElementById('locationFilter');
-    locationFilter.innerHTML = '<option value="">Select Location</option>'; // Clear existing options
-
-    // Extract unique locations using Set
-    const uniqueLocations = [...new Set(data.map(app => app.location))];
-
-    // Populate dropdown with unique locations
-    uniqueLocations.forEach(location => {
-        const option = document.createElement('option');
-        option.value = location;
-        option.textContent = location;
-        locationFilter.appendChild(option);
-    });
+    allApplications = await response.json(); // get applications in json format
+    generateCharts(allApplications); // charts generation
+    populateLocationDropdown(allApplications); // get values for location dropdown
+    displayApplications(allApplications); // display table
 }
 
 // Filter functions
@@ -105,6 +152,7 @@ async function filterApplications() {
     }
 }
 
+// Search based on keyword
 async function searchApplications() {
     const keyword = document.getElementById('searchBar').value;
     const response = await fetch(`${baseURL}/search?keyword=${encodeURIComponent(keyword)}`);
@@ -112,16 +160,38 @@ async function searchApplications() {
     displayApplications(data);
 }
 
+// Get location values for dropdown
+function populateLocationDropdown(data) {
+    const locationFilter = document.getElementById('locationFilter');
+    locationFilter.innerHTML = '<option value="">Select Location</option>'; // Clear existing options
+
+    // Extract unique locations using Set
+    const uniqueLocations = [...new Set(data.map(app => app.location))];
+
+    // Populate dropdown with unique locations
+    uniqueLocations.forEach(location => {
+        const option = document.createElement('option');
+        option.value = location;
+        option.textContent = location;
+        locationFilter.appendChild(option);
+    });
+}
+
+// Show applications
 function displayApplications(data) {
     const applicationsList = document.getElementById('applicationsList');
     applicationsList.innerHTML = '';
+
+    const startIndex = (currentPage - 1) * entriesPerPage;
+    const endIndex = startIndex + entriesPerPage;
+    const paginatedData = data.slice(startIndex, endIndex);
 
     if (data.length === 0) {
         applicationsList.innerHTML = `<tr><td colspan="7">No applications found.</td></tr>`;
         return;
     }
 
-    data.forEach(app => {
+    paginatedData.forEach(app => {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td contenteditable="true" onblur="updateApplication('${app.id}', 'company', this.innerText)">${app.company}</td>
@@ -151,34 +221,99 @@ function displayApplications(data) {
             </td>
 
             <td contenteditable="true" onblur="updateApplication('${app.id}', 'notes', this.innerText)">${app.notes}</td>
+
+            <td>
+                <button onclick="deleteApplication('${app.id}')" style="border: none; background: none; cursor: pointer; display: flex; justify-content: center; align-items: center; width: 100%;">
+                    🗑️
+                </button>
+            </td>
         `;
         applicationsList.appendChild(row);
     });
+
+    updatePaginationControls(data.length);
 }
 
-async function updateApplication(id, field, newValue){
-    const response = await fetch(`${baseURL}/${id}`);
-    if(!response.ok){
-        alert("Error fetching the application data for update.");
-        return;
-    }
+// Function to update pages for table
+function updatePaginationControls(totalEntries) {
+    const paginationControls = document.getElementById('paginationControls');
+    paginationControls.innerHTML = '';
 
-    const appData = await response.json();
-    appData[field] = newValue;
+    const totalPages = Math.ceil(totalEntries / entriesPerPage);
 
-    const updateResponse = await fetch(`${baseURL}/${id}`,{
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(appData)
+    // Create Previous Button
+    const prevButton = document.createElement('button');
+    prevButton.textContent = 'Previous';
+    prevButton.onclick = () => changePage(-1);
+    prevButton.disabled = currentPage === 1;
+    paginationControls.appendChild(prevButton);
+
+    // Create Page Number Info
+    const pageInfo = document.createElement('span');
+    pageInfo.textContent = ` Page ${currentPage} of ${totalPages} `;
+    paginationControls.appendChild(pageInfo);
+
+    // Create Next Button
+    const nextButton = document.createElement('button');
+    nextButton.textContent = 'Next';
+    nextButton.onclick = () => changePage(1);
+    nextButton.disabled = currentPage === totalPages;
+    paginationControls.appendChild(nextButton);
+}
+
+// Function to Change Page
+function changePage(step) {
+    currentPage += step;
+    displayApplications(allApplications);
+}
+
+// Function to generate charts for jobType and status
+function generateCharts(data) {
+    console.log('Updating graphs.')
+    const jobTypeCounts = {};
+    const statusCounts = {};
+
+    // Count jobType and status data
+    data.forEach(app => {
+        jobTypeCounts[app.jobType] = (jobTypeCounts[app.jobType] || 0) + 1;
+        statusCounts[app.status] = (statusCounts[app.status] || 0) + 1;
     });
-    
-    if (updateResponse.ok) {
-        alert("Application updated successfully!");
-        fetchApplications();
-    } else {
-        alert("Failed to update the application.");
+
+    // ✅ Destroy existing charts before re-creating them
+    if (jobTypeChartInstance) {
+        jobTypeChartInstance.destroy();
+    }
+    if (statusChartInstance) {
+        statusChartInstance.destroy();
     }
 
+    // ✅ Job Type Chart
+    const jobTypeCtx = document.getElementById('jobTypeChart').getContext('2d');
+    jobTypeChartInstance = new Chart(jobTypeCtx, {
+        type: 'pie',
+        data: {
+            labels: Object.keys(jobTypeCounts),
+            datasets: [{
+                data: Object.values(jobTypeCounts),
+                backgroundColor: ['#4caf50', '#2196f3', '#ff9800'],
+            }]
+        }
+    });
+
+    // ✅ Status Chart
+    const statusCtx = document.getElementById('statusChart').getContext('2d');
+    statusChartInstance = new Chart(statusCtx, {
+        type: 'bar',
+        data: {
+            labels: Object.keys(statusCounts),
+            datasets: [{
+                label: 'Number of Applications',
+                data: Object.values(statusCounts),
+                backgroundColor: '#f44336',
+            }]
+        }
+    });
 }
+
 
 fetchApplications();
