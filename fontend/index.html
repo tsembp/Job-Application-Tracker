@@ -36,6 +36,27 @@
     </form>
 
     <h3>Current Applications</h3>
+    <input type="text" id="searchBar" placeholder="Search by keyword...">
+    <button onclick="searchApplications()">Search</button>
+
+    <select id="statusFilter" onchange="filterByStatus()">
+        <option value="">Select Status</option>
+        <option value="APPLIED">Applied</option>
+        <option value="REJECTED">Rejected</option>
+        <option value="INTERVIEW">Interview</option>
+        <option value="OFFERED">Offered</option>
+    </select>
+    <select id="jobTypeFilter" onchange="filterByJobType()">
+        <option value="">Select Job Type</option>
+        <option value="ONSITE">Onsite</option>
+        <option value="REMOTE">Remote</option>
+        <option value="HYBRID">Hybrid</option>
+    </select>
+    <select id="locationFilter" onchange="filterByLocation()">
+        <option value="">Select Location</option>
+    </select>
+    <button onclick="filterApplications()">Search</button>
+
     <table id="applicationsTable">
         <thead>
             <tr>

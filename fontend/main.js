@@ -1,3 +1,4 @@
+const baseURL = 'http://localhost:8080/api/jobapplications';
 const form = document.getElementById('jobForm');
 const applicationsList = document.getElementById('applicationsList');
 
@@ -34,7 +35,7 @@ form.onsubmit = async(event) => {
     }
 
     // POST request to backend
-    const response = await fetch("http://localhost:8080/api/jobapplications", {
+    const response = await fetch(baseURL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(jobApplication)
@@ -48,39 +49,87 @@ form.onsubmit = async(event) => {
     }
 }
 
-// Get application
+// Get applications
 async function fetchApplications() {
-    const response = await fetch('http://localhost:8080/api/jobapplications');
+    const response = await fetch(baseURL);
     const data = await response.json(); // get applications in json format
+    populateLocationDropdown(data);
+    displayApplications(data);
+}
 
-    applicationsList.innerHTML = ''; // clear list
-    if(data.length === 0){
-        const row = document.createElement('tr'); // create list for applications
+function populateLocationDropdown(data) {
+    const locationFilter = document.getElementById('locationFilter');
+    locationFilter.innerHTML = '<option value="">Select Location</option>'; // Clear existing options
+
+    // Extract unique locations using Set
+    const uniqueLocations = [...new Set(data.map(app => app.location))];
+
+    // Populate dropdown with unique locations
+    uniqueLocations.forEach(location => {
+        const option = document.createElement('option');
+        option.value = location;
+        option.textContent = location;
+        locationFilter.appendChild(option);
+    });
+}
+
+// Filter functions
+async function searchApplications() {
+    const keyword = document.getElementById('searchBar').value;
+    const response = await fetch(`${baseURL}/search?keyword=${encodeURIComponent(keyword)}`);
+    const data = await response.json();
+    displayApplications(data);
+}
+
+async function filterByStatus(){
+    const status = document.getElementById('statusFilter').value;
+    if(!status) return fetchApplications();
+
+    const response = await fetch(`${baseURL}/status/${status}`);
+    const data = await response.json();
+    displayApplications(data);
+}
+
+async function filterByJobType(){
+    const jobType = document.getElementById('jobTypeFilter').value;
+    if(!jobType) return fetchApplications;
+
+    const response = await fetch(`${baseURL}/jobType/${jobType}`);
+    const data = await response.json();
+    displayApplications(data);
+}
+
+async function filterByLocation() {
+    const location = document.getElementById('locationFilter').value;
+    if(!location) return fetchApplications();
+
+    const response = await fetch(`${baseURL}/location/${encodeURIComponent(location)}`);
+    const data = await response.json();
+    displayApplications(data);
+}
+
+function displayApplications(data) {
+    const applicationsList = document.getElementById('applicationsList');
+    applicationsList.innerHTML = '';
+
+    if (data.length === 0) {
+        applicationsList.innerHTML = `<tr><td colspan="7">No applications found.</td></tr>`;
+        return;
+    }
+
+    data.forEach(app => {
+        const row = document.createElement('tr');
         row.innerHTML = `
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
+            <td>${app.company}</td>
+            <td>${app.position}</td>
+            <td>${app.status}</td>
+            <td>${app.jobType}</td>
+            <td>${app.location}</td>
+            <td>${app.applicationDate}</td>
+            <td>${app.notes}</td>
         `;
         applicationsList.appendChild(row);
-    } else{
-        data.forEach(app =>{
-            const row = document.createElement('tr'); // create list for applications
-            row.innerHTML = `
-                <td>${app.company}</td>
-                <td>${app.position}</td>
-                <td>${app.status}</td>
-                <td>${app.jobType}</td>
-                <td>${app.location}</td>
-                <td>${app.applicationDate}</td>
-                <td>${app.notes}</td>
-            `;
-            applicationsList.appendChild(row);
-        });
-    }
+    });
 }
 
 fetchApplications();
