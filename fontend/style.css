@@ -230,7 +230,7 @@ form label {
 }
 
 .filters button {
-    width: 100%;
+    width: 50%;
     background-color: #4CAF50;
     border: none;
     cursor: pointer;
@@ -241,6 +241,19 @@ form label {
 .filters button:hover {
     background-color: #45A045;
 }
+
+button.clear-button {
+    padding: 0.75rem;
+    border-radius: 5px;
+    background-color: #b20000;
+    color: #EAEAEA;
+}
+
+button.clear-button:hover{
+    background-color: #c00000ce;
+}
+
+
 
 /* Table Styling */
 table {

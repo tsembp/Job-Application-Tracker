@@ -177,6 +177,18 @@ async function filterApplications() {
     }
 }
 
+function clearFilters(){
+    document.getElementById('searchBar').value = '';
+    document.getElementById('statusFilter').selectedIndex = 0;
+    document.getElementById('jobTypeFilter').selectedIndex = 0;
+    document.getElementById('locationFilter').selectedIndex = 0;
+
+    filteredApplications = [];
+    currentPage = 1;
+    
+    fetchApplications();
+}
+
 // Show applications
 function displayApplications(data) {
     const applicationsList = document.getElementById('applicationsList');
