@@ -204,6 +204,7 @@ form label {
 
 /* Table Styling */
 table {
+    font-family: 'Poppins', Arial, sans-serif;
     width: 100%;
     border-collapse: collapse;
     border: 1px solid #333333;
@@ -225,12 +226,67 @@ table tbody tr:nth-child(even) {
     background-color: #292929;
 }
 
+table select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #1e1e1e;
+    color: #eaeaea;
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+}
+
+table select:hover {
+    border-color: #32CD32;
+}
+
+
+/* General styling for the date picker */
+table input[type="date"] {
+    font-family: inherit;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #1e1e1e;
+    color: #eaeaea;
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Hover effect */
+table input[type="date"]:hover {
+    border-color: #32CD32;
+}
+
+/* Customizing the calendar popup icon (works in most modern browsers) */
+table input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);  /* Makes the calendar icon lighter */
+    cursor: pointer;
+}
+
+
 /* Footer Styling */
+footer a {
+    color: #eaeaeaaa;
+    text-decoration: underline;
+    transition: all 0.2s ease-in-out;
+}
+
+footer a:hover {
+    color: #32CD32;
+    text-decoration: underline;
+}
+
+
 footer {
     text-align: center;
     padding: 1rem;
-    background-color: #1E1E1E;
-    color: #EAEAEA;
+    background-color: #0b0b0b;
+    color: #eaeaea49;
     border-top: 1px solid #333333;
     margin-top: 2rem;
 }

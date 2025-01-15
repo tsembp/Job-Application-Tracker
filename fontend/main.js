@@ -13,14 +13,27 @@ let statusChartInstance = null;
 form.onsubmit = async(event) => {
     event.preventDefault();
 
-    // Get user's input
+    // Get user's input and clear fields
     const company = document.getElementById('company').value;
+    document.getElementById('company').value = '';
+
     const position = document.getElementById('position').value;
+    document.getElementById('position').value = '';
+
     const location = document.getElementById('location').value;
+    document.getElementById('location').value = '';
+
     const applicationDate = document.getElementById('applicationDate').value;
+    document.getElementById('applicationDate').value = '';
+
     const status = document.getElementById('status').value;
+    status.selectedIndex = 0;
+
     const jobType = document.getElementById('jobType').value;
+    jobType.selectedIndex = 0;
+
     const notes = document.getElementById('notes').value;
+    document.getElementById('notes').value = '';
 
     // Example JSON:
     // {
@@ -198,7 +211,7 @@ function displayApplications(data) {
             <td contenteditable="true" onblur="updateApplication('${app.id}', 'position', this.innerText)">${app.position}</td>
             
             <td>
-                <select onchange="updateApplication('${app.id}', 'status', this.value)">
+                <select class = "status-select" onchange="updateApplication('${app.id}', 'status', this.value)">
                     <option value="APPLIED" ${app.status === 'APPLIED' ? 'selected' : ''}>Applied</option>
                     <option value="REJECTED" ${app.status === 'REJECTED' ? 'selected' : ''}>Rejected</option>
                     <option value="INTERVIEW" ${app.status === 'INTERVIEW' ? 'selected' : ''}>Interview</option>
