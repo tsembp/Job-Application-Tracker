@@ -10,13 +10,52 @@ body, html {
 }
 
 /* Header Styling */
-header {
-    width: 100%;
+#main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
     background-color: #1E1E1E;
     color: #EAEAEA;
-    padding: 1rem;
-    text-align: center;
     border-bottom: 1px solid #333333;
+}
+
+/* Styling the buttons container */
+.header-buttons {
+    height: 35px;
+    display: flex;
+    gap: 10px;
+}
+
+/* Styling the import and export buttons */
+.header-buttons button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #32CD32;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.header-buttons button:hover {
+    background-color: #28a745;
+}
+
+/* Ensure the file input is styled minimally */
+.header-buttons input[type="file"] {
+    display: none;
+}
+
+#csvFile + button {
+    background-color: #007BFF;
+}
+
+#csvFile + button:hover {
+    background-color: #0056b3;
 }
 
 /* Section Title */

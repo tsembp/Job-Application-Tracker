@@ -38,9 +38,20 @@ public class JobApplication {
 
     @NotNull(message = "Application date cannot be null.")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate applicationDate;
+    private LocalDate applicationDate;    
 
-    
+    public JobApplication(String company, String position, String location, String notes, ApplicationStatus status, JobType jobType, LocalDate applicationDate) {
+        this.company = company;
+        this.position = position;
+        this.location = location;
+        this.notes = notes;
+        this.status = status;
+        this.jobType = jobType;
+        this.applicationDate = applicationDate;
+    }
+
+    public JobApplication() {
+    }
 
     public String getCompany() {
         return company;
