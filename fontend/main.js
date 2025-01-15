@@ -311,6 +311,25 @@ function generateCharts(data) {
                 data: Object.values(jobTypeCounts),
                 backgroundColor: ['#4caf50', '#2196f3', '#ff9800'],
             }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            aspectRatio: 1,
+            layout: {
+                padding: {
+                    top: 20,
+                    bottom: 20,
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        padding: 30,
+                    }
+                }
+            }
         }
     });
 

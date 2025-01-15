@@ -91,48 +91,38 @@
         </section>
     </div>
 
-    <div style="width: 100%; padding: 20px; margin-top: 20px; background-color: #2c2c2c;">
-        <h2 style="color: white; text-align: center;">Application Insights</h2>
-        <div style="display: flex; justify-content: space-around;">
-            <!-- Job Type Chart -->
-            <div style="width: 45%;">
-                <h3 style="color: white; text-align: center;">Job Types Distribution</h3>
-                <canvas id="jobTypeChart"></canvas>
-            </div>
-            <!-- Status Chart -->
-            <div style="width: 45%;">
-                <h3 style="color: white; text-align: center;">Status Distribution</h3>
+    <header class="charts-header">
+        <h1>Applications Insights</h1>
+    </header>
+
+    <div class="charts-container">
+        <div id="left-section">
+            <canvas id="jobTypeChart"></canvas>
+        </div>
+        <div class="right-section">
+            <div id="statusChart-container">
                 <canvas id="statusChart"></canvas>
             </div>
+            <div class="hero-section">
+                <div>
+                    <h1 id="totalApplications">0</h1>
+                    <p>Total Applications</p>
+                </div>
+                <div>
+                    <h1 id="totalInterviews">0</h1>
+                    <p>Interviews</p>
+                </div>
+                <div>
+                    <h1 id="totalOffers">0</h1>
+                    <p>Offers</p>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div style="display: flex; justify-content: space-around;  padding: 5px; background-color: #2C2C2C; text-align: center;">
-        <div>
-            <h1 id="totalApplications" style="font-size: 3rem; margin: 0;">0</h1>
-            <p>Total Job Applications</p>
-            <h1>📑</h1>
-        </div>
-
-        <div>
-            <h1 id="totalInterviews" style="font-size: 3rem; margin: 0;">0</h1>
-            <p>Total Interviews</p>
-            <h1>💬</h1>
-        </div>
-
-        <div>
-            <h1 id="totalOffers" style="font-size: 3rem; margin: 0;">0</h1>
-            <p>Total Offers</p>
-            <h1>🤝🏼</h1>
-        </div>
-    </div>
-
-
-    <!-- Add Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    
 
     <footer>Developed by Panagiotis Tsembekis</footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
