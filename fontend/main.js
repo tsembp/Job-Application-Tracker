@@ -355,7 +355,7 @@ function generateCharts(data) {
             datasets: [{
                 label: 'Number of Applications',
                 data: Object.values(statusCounts),
-                backgroundColor: '#f44336',
+                backgroundColor: '#fcba03',
             }]
         }
     });

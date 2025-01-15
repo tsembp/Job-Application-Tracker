@@ -10,10 +10,13 @@ This is a full stack web application for tracking job applications with basic CR
 - **Maven** – Dependency management and project build automation.
 
 ### Front-end
-- 🚧 **Coming Soon** – Frontend implementation is underway
+- **HTML5** - For web app structure, including forms and tables for job applications.
+- **CSS3** - For styling the web interface.
+- **JavaScript (Vanilla JS)** - Used to handle dynamic interactions on client side.
 
 ### Tools & Utilities
 - **Postman** – For testing and verifying API endpoints during development.
+- **Chart.js** - For data visualization.
 
 ## ✨ Features
 - **Create, Read, Update, Delete (CRUD)** job applications.
@@ -34,7 +37,7 @@ The `job_application` table includes:
 - `jobType` (ENUM: ONSITE, REMOTE, HYBRID)
 - `location` (String)
 
-## Setup
+## ⚙️ Setup
 1. Clone the repository.
 2. Configure your `application.properties` to connect to your MySQL database.
 3. Run the application using:
