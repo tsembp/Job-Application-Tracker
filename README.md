@@ -31,7 +31,7 @@ This is a full stack web application for tracking job applications with basic CR
 ## 👀 Preview
 
 ### Application Dashboard Preview
-<img src="./assets/full-page-preview.png" alt="Application Tracker Preview" style="width:600px; border: 0.5px solid white;">
+<img src="./fontend/assets/full-page-preview.png" alt="Application Tracker Preview" style="width:600px; border: 0.5px solid white;">
 
 ### Live Demo Video
 [Watch on YouTube](https://www.youtube.com/watch?v=RFmE6xdIeuE&ab_channel=PanagiotisTsembekis)
