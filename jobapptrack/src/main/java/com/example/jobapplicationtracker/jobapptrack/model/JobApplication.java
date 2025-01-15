@@ -53,6 +53,9 @@ public class JobApplication {
     public JobApplication() {
     }
 
+
+    /* GETTERS */
+
     public String getCompany() {
         return company;
     }
@@ -80,6 +83,9 @@ public class JobApplication {
     public String getLocation(){
         return location;
     }
+
+
+    /* SETTERS */
 
     public void setCompany(String company) {
         this.company = company;

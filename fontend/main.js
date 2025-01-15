@@ -5,6 +5,7 @@ const applicationsList = document.getElementById('applicationsList');
 let currentPage = 1;
 let entriesPerPage = 5;
 let allApplications = [];
+let filteredApplications = [];
 
 let jobTypeChartInstance = null;
 let statusChartInstance = null;
@@ -125,69 +126,55 @@ async function deleteApplication(id) {
 
 // Get applications
 async function fetchApplications() {
-    const response = await fetch(baseURL);
-    allApplications = await response.json(); // get applications in json format
-    generateCharts(allApplications); // charts generation
-    updateHeroSection(allApplications);
-    populateLocationDropdown(allApplications); // get values for location dropdown
-    displayApplications(allApplications); // display table
+    try{
+        const response = await fetch(baseURL);
+        if(!response.ok) throw new Error('Failed to fetch applications');
+        allApplications = await response.json(); // get applications in json format
+        generateCharts(allApplications); // charts generation
+        updateHeroSection(allApplications);
+        populateLocationDropdown(allApplications); // get values for location dropdown
+        displayApplications(allApplications); // display table
+    } catch(error){
+        console.error('Error fetching applications:', error);
+    }
 }
 
-// Filter functions
+// Search by keyword & filters if applied
 async function filterApplications() {
-    const status = document.getElementById('statusFilter').value;
-    const jobType = document.getElementById('jobTypeFilter').value;
-    const location = document.getElementById('locationFilter').value;
+    const keyword = document.getElementById('searchBar').value.trim();
+    const filterState = {
+        status: document.getElementById('statusFilter').value,
+        jobType: document.getElementById('jobTypeFilter').value,
+        location: document.getElementById('locationFilter').value
+    }
+
+    if(!filterState){
+        filteredApplications = [];
+    }
 
     let url = `${baseURL}/filter`;
     const params = [];
 
-    // add filters if applied
-    if (status) params.push(`status=${encodeURIComponent(status)}`);
-    if (jobType) params.push(`jobType=${encodeURIComponent(jobType)}`);
-    if (location) params.push(`location=${encodeURIComponent(location)}`);
+    // Combine keyword with existing filters
+    if (keyword) params.push(`keyword=${encodeURIComponent(keyword)}`);
+    if (filterState.status) params.push(`status=${encodeURIComponent(filterState.status)}`);
+    if (filterState.jobType) params.push(`jobType=${encodeURIComponent(filterState.jobType)}`);
+    if (filterState.location) params.push(`location=${encodeURIComponent(filterState.location)}`);
 
-    if(params.length === 0){
-        fetchApplications();
-        return;
+    if (params.length > 0) {
+        url += `?${params.join('&')}`;
     }
 
-    url += params.join('&'); // construct filter query URL
-    
     try {
         const response = await fetch(url);
         if (!response.ok) throw new Error('Failed to fetch');
-        const data = await response.json();
-        displayApplications(data);
+        filteredApplications = await response.json();
+        currentPage = 1;
+        displayApplications(filteredApplications);
     } catch (error) {
         alert("No matching applications found.");
         displayApplications([]); 
     }
-}
-
-// Search based on keyword
-async function searchApplications() {
-    const keyword = document.getElementById('searchBar').value;
-    const response = await fetch(`${baseURL}/search?keyword=${encodeURIComponent(keyword)}`);
-    const data = await response.json();
-    displayApplications(data);
-}
-
-// Get location values for dropdown
-function populateLocationDropdown(data) {
-    const locationFilter = document.getElementById('locationFilter');
-    locationFilter.innerHTML = '<option value="">Select Location</option>'; // Clear existing options
-
-    // Extract unique locations using Set
-    const uniqueLocations = [...new Set(data.map(app => app.location))];
-
-    // Populate dropdown with unique locations
-    uniqueLocations.forEach(location => {
-        const option = document.createElement('option');
-        option.value = location;
-        option.textContent = location;
-        locationFilter.appendChild(option);
-    });
 }
 
 // Show applications
@@ -277,7 +264,25 @@ function updatePaginationControls(totalEntries) {
 // Function to Change Page
 function changePage(step) {
     currentPage += step;
-    displayApplications(allApplications);
+    const dataToDisplay = filteredApplications.length > 0 ? filteredApplications : allApplications;
+    displayApplications(dataToDisplay);
+}
+
+// Get location values for dropdown
+function populateLocationDropdown(data) {
+    const locationFilter = document.getElementById('locationFilter');
+    locationFilter.innerHTML = '<option value="">Select Location</option>'; // Clear existing options
+
+    // Extract unique locations using Set
+    const uniqueLocations = [...new Set(data.map(app => app.location))];
+
+    // Populate dropdown with unique locations
+    uniqueLocations.forEach(location => {
+        const option = document.createElement('option');
+        option.value = location;
+        option.textContent = location;
+        locationFilter.appendChild(option);
+    });
 }
 
 // Function to display key job application stats
@@ -361,35 +366,9 @@ function generateCharts(data) {
     });
 }
 
-// // Import CSV
-// function importCSV() {
-//     const fileInput = document.getElementById('csvFile');
-//     const formData = new FormData();
-//     formData.append("file", fileInput.files[0]);
-
-//     fetch(`${baseURL}/import`, {
-//         method: 'POST',
-//         body: formData
-//     })
-//     .then(response => {
-//         if (!response.ok) {
-//             return response.text().then(text => { throw new Error(text) });
-//         }
-//         return response.text();
-//     })
-//     .then(data => {
-//         alert(data);
-//         fetchApplications(); // Refresh the applications list after import
-//     })
-//     .catch(error => {
-//         alert("Error importing CSV: " + error.message);
-//     });
-// }
-
 // Export CSV
 function exportCSV() {
     window.location.href = `${baseURL}/export`;
 }
-
 
 fetchApplications();

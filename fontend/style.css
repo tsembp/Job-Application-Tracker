@@ -230,6 +230,7 @@ form label {
 }
 
 .filters button {
+    width: 100%;
     background-color: #4CAF50;
     border: none;
     cursor: pointer;
