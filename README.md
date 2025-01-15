@@ -26,7 +26,7 @@ This is a full stack web application for tracking job applications with basic CR
   - Location
   - Job Type (Onsite, Remote, Hybrid)
 - Uses MySQL as the database to store job applications.
-- Import/Export in CSV format.
+- Export in CSV format.
 
 ## 🛢 Database Schema
 The `job_application` table includes:

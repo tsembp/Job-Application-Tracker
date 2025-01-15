@@ -24,6 +24,9 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 // @CrossOrigin(origins = "http://localhost:8080")
 @CrossOrigin(origins = "http://127.0.0.1:3000")
 @RestController
@@ -91,6 +94,13 @@ public class JobApplicationController {
         JobApplication savedApplication = service.saveApplication(jobApplication);
         return ResponseEntity.ok(savedApplication);
     }
+
+    @PostMapping("/bulk")
+    public ResponseEntity<?> addBulkApplications(@Valid @RequestBody List<JobApplication> jobApplications) {
+        List<JobApplication> savedApplications = service.saveBulkApplication(jobApplications);
+        return ResponseEntity.ok(savedApplications);
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteApplication(@PathVariable Long id) {

@@ -361,24 +361,34 @@ function generateCharts(data) {
     });
 }
 
-// Import CSV
-function importCSV() {
-    const fileInput = document.getElementById('csvFile');
-    const formData = new FormData();
-    formData.append("file", fileInput.files[0]);
+// // Import CSV
+// function importCSV() {
+//     const fileInput = document.getElementById('csvFile');
+//     const formData = new FormData();
+//     formData.append("file", fileInput.files[0]);
 
-    fetch('/import', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.text())
-    .then(data => alert(data))
-    .catch(error => alert("Error importing CSV: " + error));
-}
+//     fetch(`${baseURL}/import`, {
+//         method: 'POST',
+//         body: formData
+//     })
+//     .then(response => {
+//         if (!response.ok) {
+//             return response.text().then(text => { throw new Error(text) });
+//         }
+//         return response.text();
+//     })
+//     .then(data => {
+//         alert(data);
+//         fetchApplications(); // Refresh the applications list after import
+//     })
+//     .catch(error => {
+//         alert("Error importing CSV: " + error.message);
+//     });
+// }
 
 // Export CSV
 function exportCSV() {
-    window.location.href = 'http://localhost:8080/api/jobapplications/export';
+    window.location.href = `${baseURL}/export`;
 }
 
 

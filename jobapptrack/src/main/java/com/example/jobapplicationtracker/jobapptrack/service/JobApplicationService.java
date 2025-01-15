@@ -24,6 +24,10 @@ public class JobApplicationService {
         return repository.save(jobApplication);
     }
 
+    public List<JobApplication> saveBulkApplication(List<JobApplication> jobApplications) {
+        return repository.saveAll(jobApplications);
+    }
+
     public void deleteApplication(Long id) {
         repository.deleteById(id); // delete job with id
     }
